@@ -49,4 +49,14 @@ export class AccountService {
   Register(register:UserRegisterModel):Observable<boolean> {
     return this.http.post<boolean>("https://localhost:7174/api/Account/Register", register);
   }
+
+  validateJWT(){
+    //Code to validate token goes here
+    var tokenValue = localStorage.getItem('MovieShopToken');
+    if (tokenValue != null){
+      const decodedToken = this.jwtHelper.decodeToken(tokenValue);
+      this.isLoggedInSubject.next(true);
+      this.currentUserSubject.next(decodedToken);
+    };
+  }
 }

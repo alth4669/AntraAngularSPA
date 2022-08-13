@@ -43,8 +43,9 @@ export class MovieDetailsComponent implements OnInit {
 
   submitReview(reviewForm:NgForm) {
     if (this.review.userId == -1) {
+      console.log("attempting to add new review");
       const newReview:ReviewModel = {movieId: this.details.id, userId: Number(this.currentUser.nameid),
-        rating: reviewForm.value.Rating, reviewText: reviewForm.value.ReviewText};
+        rating: reviewForm.value.rating, reviewText: reviewForm.value.reviewText};
       console.log(newReview);
       this.userService.reviewMovie(newReview).subscribe(data => {
         if (data) {
