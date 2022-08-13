@@ -1,1 +1,60 @@
-<p>cast-details works!</p>
+<div class="container-fluid">
+    <div class="row align-content-center justify-content-center">
+        <div class="col cast-img">
+            <img class="rounded-circle" src="{{castDetails.profilePath}}">
+        </div>
+        <div class="col cast-info">
+            <div class="row"><h1>{{castDetails.name}}</h1></div>
+            <br>
+            <!-- <div class="row">
+            @{
+                switch (@Model.Gender)
+                {
+                    case "0":
+                        <h1>Unavailable</h1>
+                        break;
+                    case "1":
+                        <h1>Female</h1>
+                        break;
+                    case "2":
+                        <h1>Male</h1>
+                        break;
+                    case "3":
+                        <h1>Non-binary</h1>
+                        break;
+                    default:
+                        <h1>Chooses not to identify</h1>
+                        break;
+                }
+            }
+            </div> -->
+            <br>
+            <div class="row"><h1><a href="{{castDetails.tmdbUrl}}">TMDB Profile</a></h1></div>
+            <br>
+            <div class="row"><h1>Total Movies: {{castDetails.roles.length}}</h1></div>
+        </div>
+    </div>
+    <hr />
+    <div class="row role-info">
+        <div class="row">
+            <div class="col">
+                <h4>FILM</h4>
+            </div>
+            <div class="col">
+                <h4>CHARACTER</h4>
+            </div>
+        </div>
+                <div class="role-data row" *ngFor="let role of castDetails.roles">
+                    <div class="col">
+                        <!-- <a asp-controller="Movies" asp-action="Details" asp-route-id="@role.MovieId">
+                            <img src="@role.PosterUrl">
+                        </a> -->
+                        <img src="{{role.posterUrl}}">
+                    </div>
+                    <div class="col">
+                        {{role.character}}
+                    </div>
+                    <hr>
+                </div>
+    </div>
+</div>

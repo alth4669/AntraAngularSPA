@@ -1,1 +1,193 @@
-<p>movie-details works!</p>
+<div style="background:linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url({{details.backdropUrl}}); background-size: cover" class="backdrop container-fluid">
+    <div class="row justify-content-center">
+        <div style="text-align: center" class="col">
+            <img src="{{details.posterUrl}}">
+        </div>
+        <div class="col">
+            <div class="row">
+                <h1>{{details.title}}</h1>   
+                <p style="font-size:.75em">{{details.tagline}}</p>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                   {{details.runTime}} m | {{details.releaseDate | date:'yyyy'}}
+                </div>
+                <div class="col">
+                    <span class="badge rounded-pill bg-secondary" *ngFor="let genre of details.genres">{{genre.name}}</span>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <h2><span class="badge bg-success">8.9</span></h2>
+              </div>
+            </div>
+            <br>
+            <p style="font-size:.7em">{{details.overview}}</p>
+        </div>
+        <div class="col review-purchase">
+            <div class="row justify-content-center">
+                <button *ngIf="isLoggedIn; else reviewRedirect" type="button" class="btn btn-outline-light" (click)="openModal(reviewModal, 'reviewModal')">Review</button>
+                <ng-template #reviewRedirect><a class="btn btn-outline-light" [routerLink]="'/Account/Login'">Review</a></ng-template>
+            </div>
+            <br>
+            <div class="row justify-content-center">
+
+                <button *ngIf="isPurchased" type="button" class="btn btn-light">Watch Movie</button>
+
+                <button *ngIf="isLoggedIn&&!isPurchased" type="button" class="btn btn-light" (click)="openModal(purchaseModal, 'purchaseModal')">Purchase ${{details.price | number: '1.2-2'}}</button>
+
+                <a *ngIf="!isLoggedIn" class="btn btn-light" [routerLink]="'/Account/Login'">Purchase ${{details.price | number: '1.2-2'}}</a>
+
+            </div>
+            <ng-container *ngIf="isLoggedIn">
+               <br>
+               <div class="row justify-content-center">
+                   <div class="col" style="text-align:center">
+                        <button type="button" class="btn btn-light" (click)="favoriteMovie()">Favorite Movie</button>
+                   </div>
+                   <div class="col" style="text-align:center">
+                        <button type="submit" class="btn btn-light" (click)="unFavoriteMovie()">Un-Favorite Movie</button>
+                   </div>
+               </div>
+            </ng-container>
+
+        </div>
+    </div>
+</div>
+<br>
+ <div class="container-fluid">
+     <div class="row">
+         <div class="col-4 movie-info">
+             <h4>MOVIE INFO</h4>
+             <br>
+             <div class="row">
+                 <div class="col">
+                     <p>Release Date&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                     <span class="badge rounded-pill bg-dark">{{details.releaseDate | date : 'MMM dd yyyy'}}</span>
+                 </div>
+             </div>
+             <hr>
+             <div class="row">
+                 <div class="col">
+                     <p>RunTime&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                     <span class="badge rounded-pill bg-dark">{{details.runTime}} m</span>
+                 </div>
+             </div>
+             <hr>
+             <div class="row">
+                 <div class="col">
+                     <p>Box Office Revenue&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                     <span class="badge rounded-pill bg-dark">${{details.revenue | number: '1.2-2'}}</span>
+                 </div>
+             </div>
+             <hr>
+             <div class="row">
+                 <div class="col">
+                     <p>Budget&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                     <span class="badge rounded-pill bg-dark">${{details.budget | number: '1.2-2'}}</span>
+                 </div>
+             </div>
+             <hr><br>
+             <h4>TRAILERS</h4>
+                <div class="trailer-data row" *ngFor="let trailer of details.trailers">
+                    <a target="_blank" href="{{trailer.trailerUrl}}">{{trailer.name}}</a>
+                </div>
+
+        </div>
+         <div class="col-8 cast-info">
+             <div class="row justify-content-center">
+                <div class="col">
+                    <h4>CAST</h4>
+                </div>
+                <div class="col">
+                    <h4>Actor/Actress</h4>
+                </div>
+                <div class="col">
+                    <h4>Character</h4>
+                </div>
+            </div>
+            <div class="cast-data row" *ngFor="let castMember of details.casts">
+                <div class="col">
+                    <a [routerLink]="'/Cast-Details/'+castMember.id">
+                        <img class="rounded-circle" src="{{castMember.profilePath}}">
+                    </a>
+                </div>
+                <div class="col">
+                    {{castMember.name}}
+                </div>
+                <div class="col">
+                    {{castMember.character}}
+                </div>
+                <hr style="margin: 1%">
+            </div>
+         </div>
+     </div>
+</div>
+
+
+
+<ng-template #reviewModal let-modal>
+    <div class="modal-header">
+        <h5 *ngIf="review.userId==-1" class="modal-title" id="reviewModalLabel">Leave a review for {{details.title}}</h5>
+        <h5 *ngIf="review.userId!=-1" class="modal-title" id="reviewModalLabel">Update your review for {{details.title}}</h5>
+        <button type="button" class="btn-close" (click)="modal.close()" aria-label="Close"></button>
+    </div>
+    <form (submit)="submitReview(reviewForm)" #reviewForm="ngForm">
+        <div class="modal-body">
+            <div class="form-group">
+                    <input type="hidden" id="MovieId" name="MovieId" value="{{details.id}}">
+                    <input type="hidden" id="UserId" name="UserId" value="{{currentUser.nameid}}">
+            </div>
+            <div class="form-group">
+                <label for="rating">Choose Rating:</label>
+                <select [(ngModel)]="review.rating" #rating="ngModel" class="form-control" id="rating" name="rating" required>
+                    <ng-container *ngIf="review.userId==-1; else preFillRating">
+                        <option *ngFor="let i of possibleRatings" value="{{i}}">{{i}}</option>
+                    </ng-container>
+                    <ng-template #preFillRating>
+                        <option *ngFor="let i of possibleRatings" value="{{i}}" selected="{{selectedStatus(i)}}">{{i}}</option>
+                    </ng-template>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="reviewText">Write your review here:</label>
+                <ng-container *ngIf="review.userId==-1; else preFillReviewText">
+                    <textarea [(ngModel)]="review.reviewText" #reviewText="ngModel" class="form-control" rows="5" id="reviewText" name="reviewText"></textarea>
+                </ng-container>
+                <ng-template #preFillReviewText>
+                    <textarea [(ngModel)]="review.reviewText" #reviewText="ngModel" class="form-control" rows="5" id="reviewText" name="reviewText">{{review.reviewText}}</textarea>
+                </ng-template>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.close()">Close</button>
+            <ng-container *ngIf="review.userId==-1; else UpdateDelete">
+                <button type="submit" class="btn btn-primary" [disabled]="!reviewForm.valid">Submit Review</button>
+            </ng-container>
+            <ng-template #UpdateDelete>
+                <button type="submit" class="btn btn-primary" [disabled]="!reviewForm.valid">Update Review</button>
+                <button type="button" (click)="deleteReview()" class="btn btn-danger">Delete Review</button>
+            </ng-template>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #purchaseModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="purchaseModalLabel">Purchase movie</h5>
+        <button type="button" class="btn-close" (click)="modal.close()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <p>You are about to make the following purchase:</p>
+        <p>{{details.title}}</p>
+        <p>{{details.price}}</p>
+        <p>Please confirm this purchase</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="purchaseMovie()">Purchase</button>
+    </div>
+</ng-template>
+  

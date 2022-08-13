@@ -1,1 +1,106 @@
-<p>create-movie works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-heard">
+                    <h1>Create a new movie for the database</h1>
+                </div>
+                <div class="card-body">
+                    <form class="form" [formGroup]="createMovieForm" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" class="form-control" formControlName="Title">
+                            <span class="text-danger" *ngIf="(createMovieForm.controls['Title'].touched || submitted) && 
+                                (createMovieForm.controls['Title'].errors?.['required'])">
+                                Title is a required field
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label>Tagline</label>
+                            <input type="text" class="form-control" formControlName="Tagline">
+                            <span class="text-danger" *ngIf="(createMovieForm.controls['Tagline'].touched || submitted) && 
+                                (createMovieForm.controls['Tagline'].errors?.['required'])">
+                                Title is a required field
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label>Overview</label>
+                            <textarea class="form-control" rows="10" formControlName="Overview"></textarea>
+                            <span class="text-danger" *ngIf="(createMovieForm.controls['Overview'].touched || submitted) && 
+                                (createMovieForm.controls['Overview'].errors?.['required'])">
+                                Overview is a required field
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label>Budget</label>
+                            <input type="number" class="form-control" formControlName="Budget">
+                        </div>
+                        <div class="form-group">
+                            <label>Revenue</label>
+                            <input type="number" class="form-control" formControlName="Revenue">
+                        </div>
+                        <div class="form-group">
+                            <label>IMDB Url</label>
+                            <input type="text" class="form-control" formControlName="ImdbUrl">
+                            <span class="text-danger" *ngIf="(createMovieForm.controls['ImdbUrl'].touched || submitted) && 
+                                (createMovieForm.controls['ImdbUrl'].errors?.['required'])">
+                                IMDB Url is a required field
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label>TMDB Url</label>
+                            <input type="text" class="form-control" formControlName="TmdbUrl">
+                            <span class="text-danger" *ngIf="(createMovieForm.controls['TmdbUrl'].touched || submitted) && 
+                                (createMovieForm.controls['TmdbUrl'].errors?.['required'])">
+                                TMDB Url is a required field
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label>Poster URL</label>
+                            <input type="text" class="form-control" formControlName="PosterUrl">
+                            <span class="text-danger" *ngIf="(createMovieForm.controls['PosterUrl'].touched || submitted) && 
+                                (createMovieForm.controls['PosterUrl'].errors?.['required'])">
+                                Poster URL is a required field
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label>Backdrop URL</label>
+                            <input type="text" class="form-control" formControlName="BackdropUrl">
+                            <span class="text-danger" *ngIf="(createMovieForm.controls['BackdropUrl'].touched || submitted) && 
+                                (createMovieForm.controls['BackdropUrl'].errors?.['required'])">
+                                Backdrop URL is a required field
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label>Original Language</label>
+                            <input type="text" class="form-control" formControlName="OriginalLanguage">
+                            <span class="text-danger" *ngIf="(createMovieForm.controls['OriginalLanguage'].touched || submitted) && 
+                                (createMovieForm.controls['OriginalLanguage'].errors?.['required'])">
+                                Original Language is a required field
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label>Release Date</label>
+                            <input type="date" class="form-control" formControlName="ReleaseDate">
+                            <span class="text-danger" *ngIf="(createMovieForm.controls['ReleaseDate'].touched || submitted) && 
+                                (createMovieForm.controls['ReleaseDate'].errors?.['required'])">
+                                Release Date is a required field
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label>RunTime</label>
+                            <input type="number" class="form-control" formControlName="RunTime">
+                        </div>
+                        <div class="form-group">
+                            <label>Price</label>
+                            <input type="number" class="form-control" formControlName="Price">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success" [disabled]="!createMovieForm.valid">Add Movie</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

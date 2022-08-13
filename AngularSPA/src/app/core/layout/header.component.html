@@ -1,21 +1,58 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+  <div class="container-fluid">
+      <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MovieShop</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+              aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+          <ul class="navbar-nav flex-grow-1">
+              <li class="nav-item">
+                  <a class="nav-link text-dark" [routerLink]="'/'">Home</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+              </li>
+              <li class="nav-item dropdown">
+                  <a class="nav-link text-dark dropdown-toggle" href="#" id="genreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Genres
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="genreDropdownMenu">
+                    <li *ngFor="let genre of genres"><a class="dropdown-item" [routerLink]="['/Genre',genre.id]" (click)="changeGenre(genre)">{{genre.name}}</a></li>
+                  </ul>
+              </li>
+              <li class="nav-item d-flex justify-content-center align-items-center">
+                <form class="d-flex">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+              </li>
+          </ul>
+          <ng-container *ngIf="!isLoggedIn; else UserDropDown">
+            <ul id="login" class="navbar-nav justify-content-end">
+              <li class="nav-item d-flex justify-content-center align-items-center">
+                <a class="btn btn-outline-dark" [routerLink]="'/Account/Login'">Login</a>
+              </li>
+              <li class="nav-item d-flex justify-content-center align-items-center">
+                <a class="btn btn-outline-dark" [routerLink]="'/Account/Register'">Register</a>
+              </li>
+            </ul>
+          </ng-container>
+          <ng-template #UserDropDown>
+            <ul class="navbar-nav justify-content-end">
+              <li class="nav-item dropdown">
+                  <a class="nav-link text-dark dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      {{currentUser.given_name}} {{currentUser.family_name}}
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="profileDropdownMenu">
+                      <li><a class="dropdown-item" [routerLink]="'/User/Purchases'">Purchased Movies</a></li>
+                      <li><a class="dropdown-item" [routerLink]="'/User/Favorites'">Favorites</a></li>
+                      <li><a class="dropdown-item">Account</a></li>
+                      <li><a class="dropdown-item" (click)="Logout()">Log Out</a></li>
+                  </ul>
+              </li>
+          </ul>
+          </ng-template>
+      </div>
+  </div>
+</nav>

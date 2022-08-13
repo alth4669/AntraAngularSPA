@@ -1,1 +1,50 @@
-<p>purchases works!</p>
+<div class="rounded">
+    <div class="container-fluid">
+        <div class="row">
+            <div *ngFor="let purchase of purchases" id="purchaseDetails" class="purchase-details col-xl-2 col-sm-4 col-lg-3 col-6">
+                <div class="card mb-4">
+                    <a [routerLink]="'/Movie-Details/'+purchase.movieId">
+                        <img src="{{purchase.posterUrl}}" class="img-fluid" alt="{{purchase.movieId}}" />
+                    </a>
+                    <button type="button" class="btn btn-dark" (click)="openModal(purchaseDetailsModal, 'purchase details modal', purchase.movieId)">Purchase Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #purchaseDetailsModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="purchaseDetailsLabel">Purchase Details</h5>
+        <button type="button" class="btn-close" (click)="modal.close()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-3 purchase-poster">
+                <img src="{{purchaseDetails.posterUrl}}" />
+            </div>
+            <div class="col-9">
+                <div class="row">
+                    <div class="col purchase-details">
+                        <p>Purchase Date&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                        <span id="purchase-date" class="badge rounded-pill bg-dark">{{purchaseDetails.purchaseDateTime | date: "MMM dd yyyy"}}</span>
+                    </div>  
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col purchase-details">
+                        <p>Price&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                        <span id="purchase-price" class="badge rounded-pill bg-dark">${{purchaseDetails.totalPrice | number: '1.2-2'}}</span>
+                    </div>  
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col purchase-details">
+                        <p>Purchase Number&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                        <span id="purchase-number" class="badge rounded-pill bg-dark">{{purchaseDetails.purchaseNumber}}</span>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

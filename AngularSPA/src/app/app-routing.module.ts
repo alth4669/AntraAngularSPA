@@ -7,7 +7,7 @@ import { MovieComponent } from './public/movie/movie.component';
 
 const routes: Routes = [
   {path: "", component: MovieComponent},
-  {path: "Genre", component: GenreComponent},
+  {path: "Genre/:genreId", component: GenreComponent},
   {path: "Movie-Details/:movieId", component: MovieDetailsComponent},
   {path: "Cast-Details/:castId", component: CastDetailsComponent},
   {path: "Account", loadChildren: () => import("./account/account.module").then(mod => mod.AccountModule)},
@@ -16,7 +16,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

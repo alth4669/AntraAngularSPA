@@ -1,1 +1,14 @@
-<p>movie works!</p>
+<div class="rounded">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6 col-lg-3 col-sm-4 col-xl-2" *ngFor="let movie of movies">
+                <div class="card mb-4">
+                    <a [routerLink]="['/Movie-Details', movie.id]">
+                        <img src="{{movie.posterUrl}}" class="img-fluid" alt="{{movie.title}}" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

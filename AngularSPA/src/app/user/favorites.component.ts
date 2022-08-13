@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FavoriteRequestModel } from '../shared/models/FavoriteRequestModel';
+import { UserService } from '../core/services/user.service';
 
 @Component({
   selector: 'app-favorites',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FavoritesComponent implements OnInit {
 
-  constructor() { }
+  favorites!: FavoriteRequestModel[];
+
+  constructor(private userService:UserService) { }
 
   ngOnInit(): void {
+    this.userService.getAllFavorites().subscribe(data => {
+      if (data) {
+        this.favorites = data;
+      }
+    })
   }
 
 }
