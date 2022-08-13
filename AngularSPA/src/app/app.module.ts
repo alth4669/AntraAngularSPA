@@ -18,6 +18,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtAdderInterceptor } from './core/Interceptors/jwt-adder.interceptor';
+import { AuthGuard } from './core/Guards/auth.guard';
+import { AdminGuard } from './core/Guards/admin.guard';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { JwtAdderInterceptor } from './core/Interceptors/jwt-adder.interceptor';
     FontAwesomeModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtAdderInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtAdderInterceptor, multi: true },
+    AuthGuard,
+    AdminGuard
   ],
   bootstrap: [AppComponent]
 })
