@@ -15,7 +15,7 @@
 <nav aria-label="Genre Page Navigation">
     <ul class="pagination">
         <li class="page-item {{prevDisabled}}">
-            <a class="page-link">
+            <a class="page-link" (click)="getNextPage(pagedGenreSet.pageIndex - 1)" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
@@ -50,7 +50,7 @@
         </ng-template>
 
         <li class="page-item {{nextDisabled}}">
-            <a class="page-link" asp-action="Genre" asp-route-page="@(Model.PageIndex+1)" aria-label="Next">
+            <a class="page-link" (click)="getNextPage(pagedGenreSet.pageIndex + 1)" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
