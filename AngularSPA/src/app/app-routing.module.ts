@@ -14,7 +14,7 @@ const routes: Routes = [
   {path: "Cast-Details/:castId", component: CastDetailsComponent},
   {path: "Account", loadChildren: () => import("./account/account.module").then(mod => mod.AccountModule)},
   {path: "Admin", loadChildren: () => import("./admin/admin.module").then(mod => mod.AdminModule), canLoad: [AdminGuard]},
-  {path: "User", loadChildren: () => import("./user/user.module").then(mod => mod.UserModule)}
+  {path: "User", loadChildren: () => import("./user/user.module").then(mod => mod.UserModule), canActivateChild: [AuthGuard]}
 ];
 
 @NgModule({
